@@ -1,0 +1,1 @@
+{"version":3,"sources":["osm-providers.js"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA","sourcesContent":["// export default {\r\n//     maptiler: {\r\n//         url:\r\n//             \"https://api.maptiler.com/maps/basic-4326/256/{z}/{x}/{y}.png?key=3IT5krQ1IJGCagxs0Jco\",\r\n//         attribution:\r\n// };"],"file":"osm-providers.dev.js"}
