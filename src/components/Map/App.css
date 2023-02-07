@@ -3,7 +3,8 @@
   }
   
   .mapDiv{
-    height: 600px;
+    height: 800px; 
+    z-index: 3;
   }
   
   .mapZoomDisplay {

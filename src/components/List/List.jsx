@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { CircularProgress, Grid, Typography, InputLabel, MenuItem, FormControl, Select } from '@mui/material'; 
 
 import placeDetails from '../PlaceDetails/PlaceDetails';
 
 import useStyles from './styles';
-import { useState } from 'react';
 import PlaceDetails from '../PlaceDetails/PlaceDetails';
 
-const List = ({ places }) =>{
+const List = ({ places, childClicked }) =>{
     const classes = useStyles();
     const [type, setType] = useState('restaurants');
     const [rating, setRating] = useState('');
+    const [placesRef, setPlacesRef] = useState([]);
 
+    console.log({childClicked})
+
+    useEffect(() => {
+        // (_,i) means you can skip the first argument
+        const ref = Array(places.length).fill().map((_, i) => placesRef[i] || createRef());
+        setPlacesRef(ref);
+    },[places])
     return(
         <div className={classes.container}>
             <Typography variant="h4">Restaurants, Hotels & Attractions Around You</Typography>
@@ -35,7 +42,11 @@ const List = ({ places }) =>{
             <Grid container spacing={3} className={classes.list}>
                 {places?.map((place, i) => (
                     <Grid item key={i} xs={12}>
-                        <PlaceDetails place={place} />
+                        <PlaceDetails 
+                            place={place} 
+                            selected={Number(childClicked === i)}
+                            refProp={placesRef[i]}
+                        />
                     </Grid>
                 ))}
             </Grid>

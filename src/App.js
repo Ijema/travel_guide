@@ -6,62 +6,85 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getPlacesData } from './api';
 import Header from './components/Header/Header';
 import List from './components/List/List';
-import Map from './components/Map/Map';
+import Maps from './components/Map/Map';
 import tt from '@tomtom-international/web-sdk-maps';
-// import { theme } from '@mui/material/styles';
 
-// Create functional App Component eqaul to a main function
 const App = () => {
-
     const theme = createTheme();
     const [longitude, setLongitude] = useState("");
     const [latitude, setLatitude] = useState("");
-    const [ places, setPlaces ] = useState([]);
-    const [ bounds, setBounds ] = useState({});
+    const [places, setPlaces] = useState([]);
+    const [bounds, setBounds] = useState({});
+    const [childClicked, setChildClicked] = useState("");
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
-          setLatitude(position.coords.latitude);
-          setLongitude(position.coords.longitude);
-          console.log(position.coords);
-          // map.setCenter([parseFloat(longitude), parseFloat(latitude)]);
-          // return (latitude, longitude);
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
+            console.log(position.coords);
         });
-      }, []);
+    }, [setLatitude, setLongitude]);
 
-      useEffect(() => {
-        let bounds = new tt.LngLatBounds([longitude, latitude], [longitude, latitude]);
-            setBounds(bounds.getNorthEast(), bounds.getSouthWest());
-            console.log("bounds", bounds)
-            console.log("bounds", bounds._sw.lat)
-            console.log("bounds", bounds._ne.lng)
-            console.log("bounds", bounds._ne.lat)
-            //   return (ne, sw);
-    }, []);
 
     useEffect(() => {
-        getPlacesData({ latitude, longitude, bounds })
-            .then((data) => {
+        if (latitude && longitude) {
+          if (isNaN(latitude) || latitude < -90 || latitude > 90) {
+            console.error("Invalid latitude value");
+            return;
+          }
+          if (isNaN(longitude) || longitude < -180 || longitude > 180) {
+            console.error("Invalid longitude value");
+            return;
+          }
+      
+          let bounds = {
+            southWest: {
+              lat: latitude - 0.05,
+              lng: longitude - 0.05
+            },
+            northEast: {
+              lat: latitude + 0.05,
+              lng: longitude + 0.05
+            }
+          };
+          setBounds(bounds);
+          console.log("bounds", bounds);
+        }
+      }, [latitude, longitude]);
+      
+    
+
+
+    useEffect(() => {
+        if (bounds) {
+            getPlacesData({ bounds }).then((data) => {
                 setPlaces(data);
-        })
-    }, [latitude, longitude, bounds]);
+                console.log(data);
+            });
+        }
+    }, [bounds]);
 
     return (
         <>
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Header />
-            <Grid container spacing={3} style={{ width: '100%' }}>
-                <Grid item xs={12} md={4}>
-                    <List  places={ places }/>
-                </Grid>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Header />
+                <Grid container spacing={3} style={{ width: '100%' }}>
+                    <Grid item xs={12} md={4}>
+                        <List 
+                          places={places} 
+                          childClicked={childClicked}
+                        />
+                    </Grid>
                 <Grid item xs={12} md={8}>
-                    <Map 
+                    <Maps 
                         longitude={longitude}
                         latitude={latitude}
                         setLongitude={setLongitude}
                         setLatitude={setLatitude}
                         setBounds={setBounds}
+                        places={places}
+                        setChildClicked={setChildClicked}
                     />
                 </Grid>
             </Grid>
