@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'; //this is the library that helps make api calls
 
 const URL = 'https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary';
 

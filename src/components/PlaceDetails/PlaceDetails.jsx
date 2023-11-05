@@ -5,6 +5,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import Rating from '@mui/lab/Rating';
 
 import useStyles from './styles';
+import { PlaceSharp } from '@mui/icons-material';
 
 const PlaceDetails = ({ place, selected, refProp }) => {
     const classes = useStyles();
@@ -21,8 +22,8 @@ const PlaceDetails = ({ place, selected, refProp }) => {
             <CardContent>
                 <Typography gutterBottom variant="h5">{place.name}</Typography>
                 <Box display="flex" justifyContent="space-between">
-                    <Typography variant="subtitle1">Price</Typography>
-                    <Typography gutterBottom variant="subtitle1">{place.price_level}</Typography>
+                    <Rating value={Number(place.rating)} />
+                    <Typography gutterBottom variant="subtitle1"> 0ut of {place.num_reviews}</Typography>
                 </Box>
                 <Box display="flex" justifyContent="space-between">
                     <Typography variant="subtitle1">Ranking</Typography>

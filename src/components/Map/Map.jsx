@@ -67,7 +67,7 @@ useEffect(() => {
           <img
             className={classes.pointer}
             src={
-              place.photo
+              place?.photo
                 ? place.photo.images.large.url
                 : "https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg"
             }

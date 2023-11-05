@@ -11,8 +11,8 @@ import tt from '@tomtom-international/web-sdk-maps';
 
 const App = () => {
     const theme = createTheme();
-    const [longitude, setLongitude] = useState("");
-    const [latitude, setLatitude] = useState("");
+    const [longitude, setLongitude] = useState(null);
+    const [latitude, setLatitude] = useState(null);
     const [places, setPlaces] = useState([]);
     const [bounds, setBounds] = useState({});
     const [childClicked, setChildClicked] = useState("");
